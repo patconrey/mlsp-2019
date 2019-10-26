@@ -22,7 +22,7 @@ addpath(genpath('tDCF_v1'));
 
 % set here the experiment to run (access and feature type)
 access_type = 'LA'; % LA for logical or PA for physical
-feature_type = 'LFCC'; % LFCC or CQCC
+feature_type = 'CQCC'; % LFCC or CQCC
 
 % set paths to the wave files and protocols
 
@@ -40,11 +40,11 @@ feature_type = 'LFCC'; % LFCC or CQCC
 %      |- ASVspoof2019_PA_protocols_v1/
 %      |- ASVspoof2019_PA_train_v1/
 
-pathToASVspoof2019Data = '/path/to/ASVspoof_root/';
+pathToASVspoof2019Data = 'F:\MLSP\';
 
 pathToDatabase = fullfile(pathToASVspoof2019Data, access_type);
-trainProtocolFile = fullfile(pathToDatabase, horzcat('ASVspoof2019_', access_type, '_protocols'), horzcat('ASVspoof2019.', access_type, '.cm.train.trn.txt'));
-devProtocolFile = fullfile(pathToDatabase, horzcat('ASVspoof2019_', access_type, '_protocols'), horzcat('ASVspoof2019.', access_type, '.cm.dev.trl.txt'));
+trainProtocolFile = fullfile(pathToDatabase, horzcat('ASVspoof2019_', access_type, '_cm_protocols'), horzcat('ASVspoof2019.', access_type, '.cm.train.trn.txt'));
+devProtocolFile = fullfile(pathToDatabase, horzcat('ASVspoof2019_', access_type, '_cm_protocols'), horzcat('ASVspoof2019.', access_type, '.cm.dev.trl.txt'));
 
 % read train protocol
 fileID = fopen(trainProtocolFile);
@@ -91,12 +91,14 @@ parfor i=1:length(spoofIdx)
 end
 disp('Done!');
 
-%% GMM training
+%% GMM training BONA FIDE
 
 % train GMM for BONA FIDE data
 disp('Training GMM for BONA FIDE...');
 [genuineGMM.m, genuineGMM.s, genuineGMM.w] = vl_gmm([genuineFeatureCell{:}], 512, 'verbose', 'MaxNumIterations',10);
 disp('Done!');
+
+%% GMM training SPOOF
 
 % train GMM for SPOOF data
 disp('Training GMM for SPOOF...');
@@ -145,6 +147,6 @@ for i=1:length(scores_cm)
 end
 fclose(fid);
 
-% compute performance
+%% compute performance
 evaluate_tDCF_asvspoof19(fullfile('cm_scores', ['scores_cm_' access_type '_' feature_type '.txt']), ...
-    fullfile(pathToASVspoof2019Data, access_type, ['ASVspoof2019_' access_type '_dev_asv_scores_v1.txt']));
+    fullfile(pathToASVspoof2019Data, access_type, 'ASVspoof2019_LA_asv_scores', ['ASVspoof2019.' access_type '.asv.dev.gi.trl.scores.txt']));
