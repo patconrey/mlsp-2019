@@ -1,3 +1,7 @@
+*~
+*._*
 .DS_Store
 /dataset/
-._.*
+
+ASVspoof_2019_baseline_CM_v1/bonafideFeatureCell.mat
+ASVspoof_2019_baseline_CM_v1/spoofFeatureCell.mat

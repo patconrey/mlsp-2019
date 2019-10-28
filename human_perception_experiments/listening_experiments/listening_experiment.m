@@ -35,21 +35,21 @@
 %% Config
 
 fs = 16000; % Hertz
-should_show_spectrograms = true;
+should_show_spectrograms = false;
 spectrogram_window_length = 512;
 should_save_audio = true;
 should_play_audio = false;
 
 path_to_bonafide_speech = "bonafide.flac";
 path_to_spoofed_speech = "spoof.flac";
-path_to_bonafide_post_artifact = "artifacts/bonafide.HP.flac";
-path_to_spoofed_post_artifact = "artifacts/spoof.HP.flac";
+path_to_bonafide_post_artifact = "artifacts/bonafide.AWGN.flac";
+path_to_spoofed_post_artifact = "artifacts/spoof.AWGN.flac";
 
-maximum_sample_duration_in_seconds = 1.2;
+maximum_sample_duration_in_seconds = 3;
 
 path_to_processing_functions = "processing_functions";
 addpath(path_to_processing_functions);
-processing_function = @processing_high_pass;
+processing_function = @processing_awgn;
 
 addpath("utils");
 
@@ -84,7 +84,7 @@ if should_show_spectrograms
     plot_spectrogram(spect_spoof_post(1:spectrogram_window_length/2, :), f_axis, t_axis, 3); title("Spoof after processing");
     
     [ spect_bonafide_post, f_axis, t_axis ] = create_spectrogram(bonafide_filtered, fs, spectrogram_window_length);
-    plot_spectrogram(spect_bonafide_post(1:spectrogram_window_length/2, :), f_axis, t_axis, 4); title("Bonafide before processing");
+    plot_spectrogram(spect_bonafide_post(1:spectrogram_window_length/2, :), f_axis, t_axis, 4); title("Bonafide after processing");
 end
 
 %% PLAY AUDIO
