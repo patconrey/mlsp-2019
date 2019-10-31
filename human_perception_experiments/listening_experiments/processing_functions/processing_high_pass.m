@@ -12,16 +12,7 @@ function output_signal = processing_high_pass(input_signal)
     % This processing block is a high pass filter.
     
     %% Script
-    
-    Fstop = 0.3;             % Stopband Frequency
-    Fpass = 0.35;             % Passband Frequency
-    Dstop = 0.0001;          % Stopband Attenuation
-    Dpass = 0.057501127785;  % Passband Ripple
-    dens  = 20;              % Density Factor
-    
-    [N, Fo, Ao, W] = firpmord([Fstop, Fpass], [0 1], [Dstop, Dpass]);
-    b  = firpm(N, Fo, Ao, W, {dens});
-    
-    output_signal = filter(b, 1, input_signal);
+    w_pass = random_number_generator([0 1]);
+    output_signal = highpass(input_signal, w_pass);
 end
 
