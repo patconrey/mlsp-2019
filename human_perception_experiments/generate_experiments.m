@@ -1,3 +1,27 @@
+%% README
+
+% This script will generate experiment sets according to the parameters
+% provided below. Here, an experiment set is defined to mean 4 processed
+% sample of data. One of these samples will be from an outlier class
+% (either spoofed or bonafide), while three of the samples will be from the
+% other class. The choice between which class is the majority for a given
+% experiment is decided randomly. The script outputs a .mat file following
+% this structure:
+% Experiment sources is an array of structs each with the following
+% properties.
+%   - label: Indicates which class has majority
+%   - processing: function handle to use to process samples
+%   - spoofed_samples: A cell array of filenames corresponding to spoofed 
+%       audio samples. There will be 3 elements if label == "spoofed".
+%   - bonafide_samples: A cell array of filenames corresponding to bonafide 
+%       audio samples. There will be 3 elements if label == "bonafide".
+%   - output_spoofed: an array of the output filenames for the spoofed
+%       class
+%   - output_bonafide: an array of the output filenames for the bonafide
+%       class
+%   - presentation: an array of the filenames in the order they ought to be
+%       presented in, according to the method Rich suggested.
+
 %% Config
 
 addpath("listening_experiments/processing_functions");
@@ -17,23 +41,6 @@ path_to_audio_data = "../dataset/LA/ASVspoof2019_LA_eval/flac/";
 
 fs = 16000;
 
-% Experiments table:
-%   id | processing | input spoofed | input bonafide | output spoofed |
-%   output bonafide | presentation 
-%   
-%   - id: integer referring to the id of the experiment
-%   - processing: the name of the processing function
-%   - input spoofed: an array of the names of the input files that were
-%       spoofed
-%   - input bonafide: an array of the names of the input files that were
-%       bonafide
-%   - output spoofed: an array of the output filenames for the spoofed
-%       class
-%   - output bonafide: an array of the output filenames for the bonafide
-%       class
-%   - presentation: an array of the filenames in the order they ought to be
-%       presented in
-
 %% Check assertions
 
 assert(length(experiment_processing_functions) == length(number_of_samples_for_processing), "Must provide equal number of processing functions as number of samples per processing function.")
@@ -50,13 +57,6 @@ protocol_bonafide = protocol(indices_for_bonafide_data, :);
 
 %% Create experiment sets
 
-% Experiment sources is an array of structs each with the following properties
-%   - label: Indicates which class has majority
-%   - processing: function handle to use to process samples
-%   - spoofed_samples: A cell array of filenames corresponding to spoofed 
-%       audio samples. There will be 3 elements if label == "spoofed".
-%   - bonafide_samples: A cell array of filenames corresponding to bonafide 
-%       audio samples. There will be 3 elements if label == "bonafide".
 experiment_sources = [];
 
 % Loop through the processing functions and generate the appropriate number
