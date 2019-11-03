@@ -3,5 +3,7 @@
 .DS_Store
 /dataset/
 
+human_perception_experiments/artifacts
+
 ASVspoof_2019_baseline_CM_v1/bonafideFeatureCell.mat
 ASVspoof_2019_baseline_CM_v1/spoofFeatureCell.mat

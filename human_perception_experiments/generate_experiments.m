@@ -127,6 +127,38 @@ for experiment_index = 1:length(experiment_sources)
         write_sample(path_for_processed_artifact, processed_sample, fs);
         
         experiment_sources(experiment_index).output_bonafide(bonafide_index) = path_for_processed_artifact;
+    end 
+end
+
+%% Create presentation order
+
+% Loop through each experiment source and decide the presentation order for
+% each one.
+for experiment_index = 1:length(experiment_sources)
+    experiment = experiment_sources(experiment_index);
+    spoofed_sources = experiment.output_spoofed;
+    bonafide_sources = experiment.output_bonafide;
+    label = experiment.label;
+    
+    is_majority_spoofed = label == "spoofed";
+    
+    presentation = strings(1, 4);
+    index_of_outlier = 2 + randi([0 1], 1);
+    if is_majority_spoofed
+        presentation(1, 1) = spoofed_sources(1);
+        presentation(1, 4) = spoofed_sources(2);
+        presentation(1, 2 + abs(3 - index_of_outlier)) = spoofed_sources(3);
+        presentation(1, index_of_outlier) = bonafide_sources;
+    else
+        presentation(1, 1) = bonafide_sources(1);
+        presentation(1, 4) = bonafide_sources(2);
+        presentation(1, 2 + abs(3 - index_of_outlier)) = bonafide_sources(3);
+        presentation(1, index_of_outlier) = spoofed_sources;
     end
     
+    experiment_sources(experiment_index).presentation = presentation;
 end
+
+%% Create Table
+
+save(path_to_experiment_table, "experiment_sources");
