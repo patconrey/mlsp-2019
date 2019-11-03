@@ -26,19 +26,28 @@
 
 addpath("listening_experiments/processing_functions");
 
+% The next two parameters determine the processing to apply to data samples
+% as well as the number of experiment sets for each method of procesing.
 experiment_processing_functions = { @processing_diff_phase, @processing_template };
 number_of_samples_for_processing = [ 5, 3 ];
 
+% If an audio sample is longer than this parameter, it will be truncated.
 max_duration_in_seconds = 2;
 
+% This is the directory we'll save the processed audio files to.
 path_to_processed_signals = "artifacts/";
 
+% This is the path we'll save the final experiment table to.
 path_to_experiment_table = "experiment_table.mat";
 
+% This file will be used as the source of the spoofed and bonafide audio.
 path_to_protocol_file = "../dataset/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt";
 
+% Set this parameter to be the directory path to the audio data.
 path_to_audio_data = "../dataset/LA/ASVspoof2019_LA_eval/flac/";
 
+% All our data has a sampling frequency of 16kHz so this should remain
+% unchanged.
 fs = 16000;
 
 %% Check assertions
