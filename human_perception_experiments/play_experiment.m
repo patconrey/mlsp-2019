@@ -31,8 +31,13 @@ for set_index = 1:number_of_sets
     end
     
     if ~silence_answer_output
-        disp(['Outlier was sample ' num2str(set.index_of_outlier)]); 
+        disp('Press any key for answer');
+        pause;
+        disp(['Outlier was sample ' num2str(set.index_of_outlier)]);  
     end
+    
+    disp('Press any key to move on.');
+    pause;
 end
 
     
