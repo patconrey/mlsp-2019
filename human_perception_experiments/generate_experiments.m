@@ -21,15 +21,18 @@
 %       class
 %   - presentation: an array of the filenames in the order they ought to be
 %       presented in, according to the method Rich suggested.
+%   - index_of_outlier: the index of the outlyling sample relative to
+%       presentation
 
 %% Config
 
 addpath("listening_experiments/processing_functions");
+addpath("listening_experiments/utils");
 
 % The next two parameters determine the processing to apply to data samples
 % as well as the number of experiment sets for each method of procesing.
 experiment_processing_functions = { @processing_diff_phase, @processing_template };
-number_of_samples_for_processing = [ 5, 3 ];
+number_of_samples_for_processing = [ 3, 3 ];
 
 % If an audio sample is longer than this parameter, it will be truncated.
 max_duration_in_seconds = 2;
@@ -166,7 +169,12 @@ for experiment_index = 1:length(experiment_sources)
     end
     
     experiment_sources(experiment_index).presentation = presentation;
+    experiment_sources(experiment_index).index_of_outlier = index_of_outlier;
 end
+
+%% Shuffle experiment data
+
+experiment_sources = experiment_sources(randperm(length(experiment_sources)));
 
 %% Create Table
 
