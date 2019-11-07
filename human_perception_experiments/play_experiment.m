@@ -1,8 +1,8 @@
 %% Config
 
-path_to_experiment = "experiment_table.mat";
+path_to_experiment = "experiments.mat";
 
-maximum_duration_in_seconds = 2;
+maximum_duration_in_seconds = 5;
 
 silence_answer_output = false;
 
