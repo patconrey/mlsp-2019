@@ -35,21 +35,21 @@
 %% Config
 
 fs = 16000; % Hertz
-should_show_spectrograms = false;
+should_show_spectrograms = true;
 spectrogram_window_length = 512;
 should_save_audio = true;
 should_play_audio = false;
 
 path_to_bonafide_speech = "bonafide.flac";
 path_to_spoofed_speech = "spoof.flac";
-path_to_bonafide_post_artifact = "artifacts/bonafide.AWGN.flac";
-path_to_spoofed_post_artifact = "artifacts/spoof.AWGN.flac";
+path_to_bonafide_post_artifact = "artifacts/bonafide.random_phase.flac";
+path_to_spoofed_post_artifact = "artifacts/spoof.random_phase.flac";
 
 maximum_sample_duration_in_seconds = 3;
 
 path_to_processing_functions = "processing_functions";
 addpath(path_to_processing_functions);
-processing_function = @processing_awgn;
+processing_function = @processing_diff_phase;
 
 addpath("utils");
 
