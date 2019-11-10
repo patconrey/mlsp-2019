@@ -1,7 +1,7 @@
 import librosa
 import numpy as np
 import scipy as sp
-from utils import *
+from utils import buffer
 import math
 
 def modgdf(x, n_fft, sampling_rate = 16000, frame_length_seconds = 0.02, frame_overlap_seconds = 0.01, lifter_length = 8, gamma = 0.9, alpha = 0.4):
@@ -25,7 +25,7 @@ def modgdf(x, n_fft, sampling_rate = 16000, frame_length_seconds = 0.02, frame_o
     # Compute modified group delay function
     X_r, X_i = X.real, X.imag
     Y_r, Y_i = Y.real, Y.imag
-    tau = (X_r * Y_r + X_i * Y_i) / (np.sign(S) * (np.abs(S) ** 1.8))
+    tau = (X_r * Y_r + X_i * Y_i) / (np.sign(S) * (np.abs(S) ** (gamma * 2)))
     tau_m = (tau / np.abs(tau)) * ((np.abs(tau)) ** alpha)
 
     # Compute the cepstrum of the modified group delay function
