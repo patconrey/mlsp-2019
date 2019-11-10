@@ -4,6 +4,8 @@
 /dataset/
 /papers/
 
+/__pycache__/
+
 human_perception_experiments/artifacts
 human_perception_experiments/sample_experiment_*
 human_perception_experiments/*.zip
