@@ -1,5 +1,6 @@
 *~
 *._*
+.vscode/
 .DS_Store
 /dataset/
 /papers/
