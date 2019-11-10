@@ -4,7 +4,8 @@
 /dataset/
 /papers/
 
-/__pycache__/
+__pycache__/
+*.py[cod]
 
 human_perception_experiments/artifacts
 human_perception_experiments/sample_experiment_*
