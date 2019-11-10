@@ -5,6 +5,8 @@
 /dataset/
 /papers/
 
+artifacts/
+
 __pycache__/
 *.py[cod]
 
