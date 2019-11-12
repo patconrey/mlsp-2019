@@ -14,7 +14,7 @@ if mod(length(input), L) > 0
 end
 
 fftN = N;
-X = zeros(fftN,(length(input)-N)/L+1);
+X = zeros(fftN,floor((length(input)-N)/L)+1);
 for m = 1:(length(input)-N)/L+1
     section = w.*input((m-1)*L+1:(m-1)*L+N);
     section_freq = fft(section,fftN);

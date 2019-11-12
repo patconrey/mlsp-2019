@@ -1,20 +1,16 @@
-function [x] = GLA(Y_mag, win_length, hop_length, n_iter, phase_init)
+function [x] = GLA(Y_mag, win_length, hop_length, wind, n_iter, phase_init)
 % This function implements the Griffin-Lim MSTFT reconstruction algorithm
 % (LSEE-MSTFTM)
 
 % Initialize
-if nargin < 4
+if nargin < 5
     n_iter = 32;
 end
-% Modified Hamming window
-a = 0.54;
-b = -0.46;
-phi = pi/win_length;
-wind = 2/sqrt(4*a^2+2*b^2)*(a+b*cos(2*pi*(0:win_length-1)'/win_length+phi));
+
 % Calculate this power once only
 wind_energy = sum(wind.^2);
 % Use given phase
-if nargin == 5
+if nargin == 6
     phase = phase_init;
 else
     % Otherwise, randomly initialize phase
