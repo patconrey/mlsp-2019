@@ -38,16 +38,16 @@ number_of_samples_for_processing = [ 5 ];
 max_duration_in_seconds = 5;
 
 % This is the directory we'll save the processed audio files to.
-path_to_processed_signals = "artifacts/";
+path_to_processed_signals = "listening_experiments\artifacts\";
 
 % This is the path we'll save the final experiment table to.
 path_to_experiment_table = "experiments.mat";
 
 % This file will be used as the source of the spoofed and bonafide audio.
-path_to_protocol_file = "../dataset/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt";
+path_to_protocol_file = "F:\MLSP\LA\ASVspoof2019_LA_cm_protocols\ASVspoof2019.LA.cm.dev.trl.txt";
 
 % Set this parameter to be the directory path to the audio data.
-path_to_audio_data = "../dataset/LA/ASVspoof2019_LA_dev/flac/";
+path_to_audio_data = "F:\MLSP\LA\ASVspoof2019_LA_dev\flac\";
 
 % All our data has a sampling frequency of 16kHz so this should remain
 % unchanged.
