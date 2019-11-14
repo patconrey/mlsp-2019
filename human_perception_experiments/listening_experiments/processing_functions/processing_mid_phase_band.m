@@ -5,6 +5,11 @@ function [output_signal, band_limits] = processing_mid_phase_band(input_signal, 
     % phase, but the top third strip of the original phase has been randomized.
     
     %% Script
+    % Make sure signal is an even number of samples
+    if mod(length(input_signal), 2) > 0
+       input_signal(end) = []; 
+    end
+    
     max_phase = 1; % This is the number that the ramp will reach before returning to 0.
     
     N = 256;
