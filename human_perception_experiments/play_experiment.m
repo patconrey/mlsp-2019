@@ -20,14 +20,56 @@ for set_index = 1:number_of_sets
     disp(' ');
     disp(['Set ' num2str(set_index)]);
     
-    % Play each audio sample
-    for audio_index = 1:length(audio_files_in_set)
-        path_to_sample = audio_files_in_set(audio_index);
-        sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
+    set_done = false;
+    while ~set_done
+        % Play each audio sample
+        for audio_index = 1:length(audio_files_in_set)
+            path_to_sample = audio_files_in_set(audio_index);
+            sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
+
+            disp(['Playing sample ' num2str(audio_index)])
+            soundsc(sample, 16000);
+            pause; 
+        end
         
-        disp(['Playing sample ' num2str(audio_index)])
-        soundsc(sample, 16000);
-        pause; 
+        %Enter user input loop
+        input_done = false;
+        while ~input_done
+            user_input = input('Repeat? ', 's');
+            if user_input == 'n'
+                set_done = true;
+                input_done = true;
+                continue;
+            elseif user_input == 'r'
+                input_done = true;
+            elseif user_input == 'r1'
+                path_to_sample = audio_files_in_set(1);
+                sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
+                
+                disp('Playing sample 1');
+                soundsc(sample, 16000);
+            elseif user_input == 'r2'
+                path_to_sample = audio_files_in_set(2);
+                sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
+                
+                disp('Playing sample 2');
+                soundsc(sample, 16000);
+            elseif user_input == 'r3'
+                path_to_sample = audio_files_in_set(3);
+                sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
+                
+                disp('Playing sample 3');
+                soundsc(sample, 16000);
+            elseif user_input == 'r4'
+                path_to_sample = audio_files_in_set(4);
+                sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
+                
+                disp('Playing sample 4');
+                soundsc(sample, 16000);
+            else
+                disp('Please enter valid input');
+            end
+        end
     end
     
     if ~silence_answer_output
