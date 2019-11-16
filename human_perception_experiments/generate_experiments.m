@@ -43,7 +43,7 @@ max_duration_in_seconds = 5;
 if Machine == 'Mark'
     path_to_processed_signals = "listening_experiments\artifacts\";
 elseif Machine == 'Pat'
-    path_to_processed_signals = "artifacts\";
+    path_to_processed_signals = "artifacts/";
 end
 
 % This is the path we'll save the final experiment table to.
