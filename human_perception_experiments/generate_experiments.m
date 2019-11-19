@@ -26,7 +26,7 @@
 
 %% Config
 % Choose 'Mark' or 'Pat'
-Machine = "Mark";
+Machine = "Pat";
 
 addpath("listening_experiments/processing_functions");
 addpath("listening_experiments/utils");
