@@ -10,6 +10,13 @@ silence_answer_output = false;
 
 experiment = load(path_to_experiment).experiment_sources;
 
+%% Greeting and Instructions
+clc;
+disp('Hi! Thank you for your help with this! We really appreciate your time.');
+print_instructions();
+disp('Press any key to play an example.');
+pause;
+
 %% Loop through sets
 
 number_of_sets = length(experiment);
@@ -40,6 +47,7 @@ for set_index = 1:number_of_sets
             disp('Enter "n" to move on.');
             disp('Enter "r" to repeat all of the samples.');
             disp('Enter "rX" to repeat the Xth sample');
+            disp('Enter "i" to see the instructions.');
             user_input = input('> ', 's');
             if strcmp(user_input, 'n')
                 set_done = true;
@@ -71,6 +79,8 @@ for set_index = 1:number_of_sets
                 
                 disp('Playing sample 4');
                 soundsc(sample, 16000);
+            elseif strcmp(user_input, 'i')
+                print_instructions();
             else
                 disp('Please enter valid input');
             end
