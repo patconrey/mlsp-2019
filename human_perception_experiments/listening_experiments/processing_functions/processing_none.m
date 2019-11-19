@@ -6,5 +6,7 @@ function [output_signal, args] = processing_none(input_signal,args)
     
     %% Script
     output_signal = input_signal;
+    
+    args = [];
 end
 
