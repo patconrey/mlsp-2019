@@ -156,7 +156,7 @@ for experiment_index = 1:length(experiment_sources)
         bonafide_sample_path = path_to_audio_data + file_name + ".flac";
         bonafide_audio = read_in_sample(bonafide_sample_path, max_duration_in_seconds);
         
-        processed_sample = processing_function(spoofed_audio, previous_args);
+        processed_sample = processing_function(bonafide_audio, previous_args);
         path_for_processed_artifact = path_to_processed_signals + file_name + ".bonafide.processed.flac";
         write_sample(path_for_processed_artifact, processed_sample, fs);
         
