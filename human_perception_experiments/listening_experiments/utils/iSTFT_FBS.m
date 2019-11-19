@@ -1,4 +1,4 @@
-function [x] = iSTFT_FBS(input)
+function [ x ] = iSTFT_FBS( input )
 %%% Feel free to use your own inputs
 %%% Output is the time-domain signal using FBS
 N = size(input,1);

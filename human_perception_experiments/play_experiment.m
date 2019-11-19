@@ -1,4 +1,4 @@
-%% Config
+ %% Config
 
 path_to_experiment = "experiments.mat";
 

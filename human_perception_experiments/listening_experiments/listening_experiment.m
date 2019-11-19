@@ -35,9 +35,9 @@
 %% Config
 
 fs = 16000; % Hertz
-should_show_spectrograms = true;
+should_show_spectrograms = false;
 spectrogram_window_length = 512;
-should_save_audio = true;
+should_save_audio = false;
 should_play_audio = false;
 
 path_to_bonafide_speech = "bonafide.flac";

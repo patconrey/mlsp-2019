@@ -1,13 +1,17 @@
 *~
 *._*
+.vscode/
 .DS_Store
 /dataset/
 /papers/
 
+artifacts/
+
+__pycache__/
+*.py[cod]
+
+*.zip
+*.mat
+
 human_perception_experiments/artifacts
 human_perception_experiments/sample_experiment_*
-human_perception_experiments/*.zip
-human_perception_experiments/*.mat
-
-ASVspoof_2019_baseline_CM_v1/bonafideFeatureCell.mat
-ASVspoof_2019_baseline_CM_v1/spoofFeatureCell.mat
