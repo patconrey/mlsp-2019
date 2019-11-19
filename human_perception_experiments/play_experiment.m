@@ -35,32 +35,37 @@ for set_index = 1:number_of_sets
         %Enter user input loop
         input_done = false;
         while ~input_done
-            user_input = input('Repeat? ', 's');
-            if user_input == 'n'
+            disp(' ');
+            disp('Do you want to repeat any samples?');
+            disp('Enter "n" to move on.');
+            disp('Enter "r" to repeat all of the samples.');
+            disp('Enter "rX" to repeat the Xth sample');
+            user_input = input('> ', 's');
+            if strcmp(user_input, 'n')
                 set_done = true;
                 input_done = true;
                 continue;
-            elseif user_input == 'r'
+            elseif strcmp(user_input, 'r')
                 input_done = true;
-            elseif user_input == 'r1'
+            elseif strcmp(user_input, 'r1')
                 path_to_sample = audio_files_in_set(1);
                 sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
                 
                 disp('Playing sample 1');
                 soundsc(sample, 16000);
-            elseif user_input == 'r2'
+            elseif strcmp(user_input, 'r2')
                 path_to_sample = audio_files_in_set(2);
                 sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
                 
                 disp('Playing sample 2');
                 soundsc(sample, 16000);
-            elseif user_input == 'r3'
+            elseif strcmp(user_input, 'r3')
                 path_to_sample = audio_files_in_set(3);
                 sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
                 
                 disp('Playing sample 3');
                 soundsc(sample, 16000);
-            elseif user_input == 'r4'
+            elseif strcmp(user_input, 'r4')
                 path_to_sample = audio_files_in_set(4);
                 sample = read_in_sample(path_to_sample, maximum_duration_in_seconds);
                 
@@ -73,7 +78,7 @@ for set_index = 1:number_of_sets
     end
     
     if ~silence_answer_output
-        disp('Press any key for answer');
+        disp('Press any key for the answer.');
         pause;
         disp(['Outlier was sample ' num2str(set.index_of_outlier)]);  
     end
