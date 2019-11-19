@@ -6,7 +6,7 @@ function [output_signal, snr] = processing_awgn(input_signal, snr)
     
     %% Script
     if nargin == 1
-        snr = random_number_generator([1 10]);
+        snr = random_number_generator([5 15]);
     end
     output_signal = awgn(input_signal, snr, 'measured');
 end
