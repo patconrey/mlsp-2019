@@ -26,7 +26,7 @@
 
 %% Config
 % Choose 'Mark' or 'Pat'
-Machine = "Pat";
+Machine = "Mark";
 
 addpath("listening_experiments/processing_functions");
 addpath("listening_experiments/utils");
@@ -148,6 +148,8 @@ for experiment_index = 1:length(experiment_sources)
         write_sample(path_for_processed_artifact, processed_sample, fs);
         
         experiment_sources(experiment_index).output_spoofed(spoof_index) = path_for_processed_artifact;
+        
+        processing_log(path_to_experiment_table, spoofed_sample_path, processing_function, previous_args);
     end
     
     % Loop through bonafide inputs
@@ -161,6 +163,8 @@ for experiment_index = 1:length(experiment_sources)
         write_sample(path_for_processed_artifact, processed_sample, fs);
         
         experiment_sources(experiment_index).output_bonafide(bonafide_index) = path_for_processed_artifact;
+        
+        processing_log(path_to_experiment_table, bonafide_sample_path, processing_function, previous_args);
     end 
 end
 

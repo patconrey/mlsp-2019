@@ -13,8 +13,8 @@ function [output_signal, w_pass] = processing_high_pass(input_signal, w_pass)
     
     %% Script
     if nargin == 1
-        w_pass = random_number_generator([0 1]);
+        w_pass = random_number_generator([0.25 1]);
     end
-    output_signal = highpass(input_signal, 0.4);
+    output_signal = highpass(input_signal, w_pass);
 end
 
