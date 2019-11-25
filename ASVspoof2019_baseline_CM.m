@@ -98,6 +98,17 @@ disp('Training GMM for BONA FIDE...');
 [genuineGMM.m, genuineGMM.s, genuineGMM.w] = vl_gmm([genuineFeatureCell{:}], 512, 'verbose', 'MaxNumIterations',10);
 disp('Done!');
 
+%% Prepare SPOOF features
+
+% Randomly sample 'spoofFeatureCell' down to 1/8 the original size
+disp('Sampling SPOOF');
+targetSize = 2850;
+while size(spoofFeatureCell,1) > targetSize
+    didx = floor(rand()*size(spoofFeatureCell,1))+1;
+    spoofFeatureCell(didx,:) = [];
+end
+disp('Done!');
+
 %% GMM training SPOOF
 
 % train GMM for SPOOF data
