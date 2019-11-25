@@ -22,7 +22,7 @@ addpath(genpath('tDCF_v1'));
 
 % set here the experiment to run (access and feature type)
 access_type = 'LA'; % LA for logical or PA for physical
-feature_type = 'LFCC'; % LFCC or CQCC
+feature_type = 'CQCC'; % LFCC, CQCC, or MODGDF
 
 % set paths to the wave files and protocols
 
@@ -72,6 +72,8 @@ parfor i=1:length(bonafideIdx)
         genuineFeatureCell{i} = [stat delta double_delta]';
     elseif strcmp(feature_type,'CQCC')
         genuineFeatureCell{i} = cqcc(x, fs, 96, fs/2, fs/2^10, 16, 29, 'ZsdD');
+    elseif strcmp(feature_type,'MODGDF')
+        disp('Add functionality here');
     end
 end
 disp('Done!');
@@ -87,6 +89,8 @@ parfor i=1:length(spoofIdx)
         spoofFeatureCell{i} = [stat delta double_delta]';
     elseif strcmp(feature_type,'CQCC')
         spoofFeatureCell{i} = cqcc(x, fs, 96, fs/2, fs/2^10, 16, 29, 'ZsdD');
+    elseif strcmp(feature_type,'MODGDF')
+        disp('Add functionality here');
     end
 end
 disp('Done!');
