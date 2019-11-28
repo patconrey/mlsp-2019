@@ -40,7 +40,7 @@ access_type = 'LA'; % LA for logical or PA for physical
 pathToASVspoof2019Data = '../dataset/';
 
 pathToDatabase = fullfile(pathToASVspoof2019Data, access_type);
-protocolFile = fullfile(pathToDatabase, horzcat('ASVspoof2019_', access_type, '_cm_protocols'), horzcat('ASVspoof2019.', access_type, '.cm.eval.trl.txt'));
+protocolFile = fullfile(pathToDatabase, horzcat('ASVspoof2019_', access_type, '_cm_protocols'), horzcat('ASVspoof2019.', access_type, '.cm.dev.trl.txt'));
 
 % read development protocol
 fileID = fopen(protocolFile);
@@ -74,12 +74,12 @@ frequency_limits = [0 fs/2];
 
 evaluationFeatureCell = cell(size(filelist));
 parfor i=1:length(filelist)
-    filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_eval/flac'],[filelist{i} '.flac']);
+    filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_dev/flac'],[filelist{i} '.flac']);
     [x,fs] = audioread(filePath);
     [~, cepstral_features, ~] = mel_modified_group_delay_feature(x, fs, filter_bank);
     evaluationFeatureCell{i} = cepstral_features;
 end
 
-save("eval_melmodgdf_features.mat", "evaluationFeatureCell");
+save("dev_melmodgdf_features.mat", "evaluationFeatureCell");
 
 disp('Done!');

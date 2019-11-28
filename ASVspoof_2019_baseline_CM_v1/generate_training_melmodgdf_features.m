@@ -73,7 +73,7 @@ frequency_limits = [0 fs/2];
 %% Feature extraction and scoring of data
 
 evaluationFeatureCell = cell(size(filelist));
-for i=1:length(filelist)
+parfor i=1:length(filelist)
     filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_train/flac'],[filelist{i} '.flac']);
     [x,fs] = audioread(filePath);
     [~, cepstral_features, ~] = mel_modified_group_delay_feature(x, fs, filter_bank);
