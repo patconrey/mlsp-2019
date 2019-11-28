@@ -1,6 +1,6 @@
-function [grp_phase, cep, ts] = modified_group_delay_feature(speech, fs, rho, gamma, num_coeff, frame_shift)
+function [grp_phase, cep, ts] = mel_modified_group_delay_feature(speech, fs, filter_bank, rho, gamma, num_coeff, frame_shift)
 
-% https://github.com/covarep/covarep/blob/master/feature_extraction/modified_group_delay_feature.m
+% Based on https://github.com/covarep/covarep/blob/master/feature_extraction/modified_group_delay_feature.m
 %input: 
 %     file_name: path for the waveform. The waveform should have a header
 %     rho: a parameter to control the shape of modified group delay spectra
@@ -28,17 +28,17 @@ function [grp_phase, cep, ts] = modified_group_delay_feature(speech, fs, rho, ga
 %
 % feel free to modify the code and welcome to cite above papers :)
 
-if nargin<3
+if nargin<4
     rho = 0.4;
 end
-if nargin<4
+if nargin<5
     gamma = 0.9;
 end
-if nargin<5
+if nargin<6
     num_coeff = 12;
 end
 frame_length = 0.025; %msec
-if nargin<6
+if nargin<7
     frame_shift  = 0.010;
 end
 NFFT         = 512;
@@ -51,8 +51,9 @@ frame_length = round((frame_length)*fs);
 frame_shift = round((frame_shift)*fs);
 [frames, ts] = enframe(speech, hamming(frame_length), frame_shift);
 ts = (ts-1)/fs;
+% One row is one segment.
 
-frame_num    = size(frames, 1);
+frame_num = size(frames, 1);
 frame_length = size(frames, 2);
 delay_vector = 1:frame_length;
 delay_matrix = repmat(delay_vector, frame_num, 1);
@@ -64,10 +65,13 @@ y_spec = fft(delay_frames', NFFT);
 x_spec = x_spec(1:NFFT/2+1, :);
 y_spec = y_spec(1:NFFT/2+1, :);
 
+x_spec = filter_bank * x_spec;
+y_spec = filter_bank * y_spec;
+
 temp_x_spec = abs(x_spec);
 
 dct_spec = dct(medfilt1(log(temp_x_spec), 5));
-smooth_spec = idct(dct_spec(1:30,:), NFFT/2+1);
+smooth_spec = idct(dct_spec, size(filter_bank, 1));
 
 grp_phase1 = (real(x_spec).*real(y_spec) + imag(y_spec) .* imag(x_spec)) ./(exp(smooth_spec).^ (2*rho));
 grp_phase = (grp_phase1 ./ abs(grp_phase1)) .* (abs(grp_phase1).^ gamma);
