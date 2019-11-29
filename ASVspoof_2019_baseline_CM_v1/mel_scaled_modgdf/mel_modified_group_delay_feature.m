@@ -35,7 +35,7 @@ if nargin<5
     gamma = 0.9;
 end
 if nargin<6
-    num_coeff = 12;
+    num_coeff = 30;
 end
 frame_length = 0.025; %msec
 if nargin<7
@@ -81,3 +81,7 @@ grp_phase(isnan(grp_phase)) = 0.0;
 
 cep = dct(grp_phase);
 cep = cep(2:num_coeff+1, :)';
+
+delta = [zeros(size(cep, 1), 1) diff(cep, 1, 2)];
+delta2 = [zeros(size(delta, 1), 1) diff(delta, 1, 2)];
+cep = [cep, delta, delta2];

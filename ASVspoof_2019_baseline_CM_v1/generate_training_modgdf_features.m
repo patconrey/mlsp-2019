@@ -19,7 +19,7 @@ addpath(genpath('CQCC_v1.0'));
 addpath(genpath('GMM'));
 addpath(genpath('bosaris_toolkit'));
 addpath(genpath('tDCF_v1'));
-addpath("../feature_extractors/modgdf");
+addpath("modgdf");
 
 % set here the experiment to run (access and feature type)
 access_type = 'LA'; % LA for logical or PA for physical
@@ -56,16 +56,31 @@ key = protocol{5};
 bonafideIdx = find(strcmp(key,'bonafide'));
 spoofIdx = find(strcmp(key,'spoof'));
 
-%% Feature extraction and scoring of data
+%% Bona fide Feature Extraction
 
-evaluationFeatureCell = cell(size(filelist));
-parfor i=1:length(filelist)
-    filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_train/flac'],[filelist{i} '.flac']);
+disp('Extracting training features for BONA FIDE data...');
+genuineFeatureCell = cell(size(bonafideIdx));
+parfor i=1:length(bonafideIdx)
+    filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_train/flac'],[filelist{bonafideIdx(i)} '.flac']);
     [x,fs] = audioread(filePath);
-    [~, cep, ~] = modified_group_delay_feature(x, fs);
-    evaluationFeatureCell{i} = cep;
+    [~, cepstral_features, ~] = modified_group_delay_feature(x, fs);
+    genuineFeatureCell{i} = cepstral_features;
 end
-
-save("train_modgdf_features.mat", "evaluationFeatureCell");
-
 disp('Done!');
+save("features/train_bonafide_modgdf_dd2_30.mat", "genuineFeatureCell");
+
+%% Spoofed Feature Extraction
+
+% extract features for SPOOF training data and store in cell array
+disp('Extracting training features for SPOOF data...');
+spoofFeatureCell = cell(size(spoofIdx));
+parfor i=1:length(spoofIdx)
+    filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_train/flac'],[filelist{spoofIdx(i)} '.flac'])
+    [x,fs] = audioread(filePath);
+    [~, cepstral_features, ~] = modified_group_delay_feature(x, fs);
+    spoofFeatureCell{i} = cepstral_features;
+end
+disp('Done!');
+save("features/train_spoofed_modgdf_dd2_30.mat", "spoofFeatureCell");
+
+disp('Training feature generation complete!');

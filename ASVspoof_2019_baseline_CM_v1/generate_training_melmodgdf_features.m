@@ -19,7 +19,7 @@ addpath(genpath('CQCC_v1.0'));
 addpath(genpath('GMM'));
 addpath(genpath('bosaris_toolkit'));
 addpath(genpath('tDCF_v1'));
-addpath("../feature_extractors/mel_scaled_modgdf");
+addpath("mel_scaled_modgdf");
 
 access_type = 'LA'; % LA for logical or PA for physical
 
@@ -69,29 +69,31 @@ length_of_each_filter = floor(DFT_LENGTH/2) + 1;
 frequency_limits = [0 fs/2];
 [ filter_bank, ~, ~ ] = trifbank( number_of_filters, length_of_each_filter, frequency_limits, fs, hz2mel, mel2hz );
 
-%% Feature extraction and scoring of data
+%% Bona fide Feature Extraction
 
-disp('Extracting training features for BONA FIDE training data...');
+disp('Extracting training features for BONA FIDE data...');
 genuineFeatureCell = cell(size(bonafideIdx));
 parfor i=1:length(bonafideIdx)
     filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_train/flac'],[filelist{bonafideIdx(i)} '.flac']);
     [x,fs] = audioread(filePath);
     [~, cepstral_features, ~] = mel_modified_group_delay_feature(x, fs, filter_bank);
-    evaluationFeatureCell{i} = cepstral_features;
+    genuineFeatureCell{i} = cepstral_features;
 end
 disp('Done!');
-save("train_bonafide_melmodgdf_features.mat", "genuineFeatureCell");
+save("features/train_bonafide_melmodgdf_dd2_30.mat", "genuineFeatureCell");
+
+%% Spoofed Feature Extraction
 
 % extract features for SPOOF training data and store in cell array
-disp('Extracting training features for SPOOF training data...');
+disp('Extracting training features for SPOOF data...');
 spoofFeatureCell = cell(size(spoofIdx));
 parfor i=1:length(spoofIdx)
     filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_train/flac'],[filelist{spoofIdx(i)} '.flac'])
     [x,fs] = audioread(filePath);
     [~, cepstral_features, ~] = mel_modified_group_delay_feature(x, fs, filter_bank);
-    evaluationFeatureCell{i} = cepstral_features;
+    spoofFeatureCell{i} = cepstral_features;
 end
 disp('Done!');
-save("train_spoofed_melmodgdf_features.mat", "spoofFeatureCell");
+save("features/train_spoofed_melmodgdf_dd2_30.mat", "spoofFeatureCell");
 
 disp('Training feature generation complete!');

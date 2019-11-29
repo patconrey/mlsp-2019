@@ -11,7 +11,7 @@
 % ============================================================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% clear; close all; clc;
+clear; close all; clc;
 
 % add required libraries to the path
 addpath(genpath('LFCC'));
@@ -21,6 +21,7 @@ addpath(genpath('bosaris_toolkit'));
 addpath(genpath('tDCF_v1'));
 addpath("modgdf");
 addpath("mel_scaled_modgdf");
+addpath("metrics_calculations");
 
 % set here the experiment to run (access and feature type)
 access_type = 'LA'; % LA for logical or PA for physical
@@ -63,6 +64,8 @@ spoofIdx = find(strcmp(key,'spoof'));
 hz2mel = @(hz)(1127*log(1+hz/700)); % Hertz to mel warping function
 mel2hz = @(mel)(700*exp(mel/1127)-700); % mel to Hertz warping function
 
+DFT_LENGTH = 512;
+fs = 16000;
 number_of_filters = 32;
 length_of_each_filter = floor(DFT_LENGTH/2) + 1;
 frequency_limits = [0 fs/2];
@@ -73,7 +76,7 @@ frequency_limits = [0 fs/2];
 % extract features for GENUINE training data and store in cell array
 disp('Extracting features for BONA FIDE training data...');
 % genuineFeatureCell = cell(size(bonafideIdx));
-% for i=1:length(bonafideIdx)
+% parfor i=1:length(bonafideIdx)
 %     filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_train/flac'],[filelist{bonafideIdx(i)} '.flac']);
 %     [x,fs] = audioread(filePath);
 %     if strcmp(feature_type,'LFCC')
@@ -85,12 +88,9 @@ disp('Extracting features for BONA FIDE training data...');
 %         genuineFeatureCell{i} = modified_group_delay_feature(x, fs);
 %     end
 % end
-genuineFeatureCell = load("features/train_bonafide_melmodgdf.mat").genuineFeatureCell;
+genuineFeatureCell = load("features/train_bonafide_modgdf_dd2_30.mat").genuineFeatureCell;
 genuineFeatureCell = cellfun(@transpose, genuineFeatureCell, 'UniformOutput', false);
 disp('Done!');
-
-% FeatureCells must be column wise (i.e., every column is a sample);
-% 90   405
 
 % extract features for SPOOF training data and store in cell array
 disp('Extracting features for SPOOF training data...');
@@ -107,7 +107,7 @@ disp('Extracting features for SPOOF training data...');
 %         genuineFeatureCell{i} = modified_group_delay_feature(x, fs);
 %     end
 % end
-spoofFeatureCell = load("features/train_spoofed_melmodgdf.mat").spoofFeatureCell;
+spoofFeatureCell = load("features/train_spoofed_modgdf_dd2_30.mat").spoofFeatureCell;
 spoofFeatureCell = cellfun(@transpose, spoofFeatureCell, 'UniformOutput', false);
 disp('Done!');
 
@@ -115,7 +115,7 @@ disp('Done!');
 
 % train GMM for BONA FIDE data
 disp('Training GMM for BONA FIDE...');
-[genuineGMM.m, genuineGMM.s, genuineGMM.w] = vl_gmm([genuineFeatureCell{:}], 512, 'verbose', 'MaxNumIterations',10);
+[genuineGMM.m, genuineGMM.s, genuineGMM.w] = vl_gmm([genuineFeatureCell{:}], 512, 'verbose', 'MaxNumIterations', 10);
 disp('Done!');
 
 %% Prepare SPOOF features
@@ -133,7 +133,7 @@ disp('Done!');
 
 % train GMM for SPOOF data
 disp('Training GMM for SPOOF...');
-[spoofGMM.m, spoofGMM.s, spoofGMM.w] = vl_gmm([spoofFeatureCell{:}], 512, 'verbose', 'MaxNumIterations',10);
+[spoofGMM.m, spoofGMM.s, spoofGMM.w] = vl_gmm([spoofFeatureCell{:}], 512, 'verbose', 'MaxNumIterations', 10);
 disp('Done!');
 
 
@@ -152,7 +152,7 @@ key = protocol{5};
 % process each development trial: feature extraction and scoring
 scores_cm = zeros(size(filelist));
 disp('Computing scores for development trials...');
-for i=1:length(filelist)
+parfor i=1:length(filelist)
     filePath = fullfile(pathToDatabase,['ASVspoof2019_' access_type '_dev/flac'],[filelist{i} '.flac']);
     [x,fs] = audioread(filePath);
     % featrue extraction
@@ -187,3 +187,7 @@ fclose(fid);
 
 %% compute performance
 evaluate_tDCF_asvspoof19(fullfile('cm_scores', ['scores_cm_' access_type '_' feature_type '.txt']), fullfile(pathToASVspoof2019Data, access_type, 'ASVspoof2019_LA_asv_scores', ['ASVspoof2019.' access_type '.asv.dev.gi.trl.scores.txt']));
+
+disp(' ');
+disp(' ');
+disp('DO NOT FORGET TO SAVE FEATURE CELLS!');
