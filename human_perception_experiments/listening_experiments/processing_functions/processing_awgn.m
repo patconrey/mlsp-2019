@@ -8,6 +8,10 @@ function [output_signal, snr] = processing_awgn(input_signal, snr)
     if nargin == 1
         snr = random_number_generator([5 15]);
     end
+    
+    % Set parameter
+    snr = 10;
+    
     output_signal = awgn(input_signal, snr, 'measured');
 end
 

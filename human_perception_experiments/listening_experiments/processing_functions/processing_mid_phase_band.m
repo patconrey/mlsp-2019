@@ -26,6 +26,11 @@ function [output_signal, band_limits] = processing_mid_phase_band(input_signal, 
         high = band_limits(2);
     end
     
+    % Set parameter
+    low = floor(floor(size(X_phase,1)/2) * 0.333);
+    high = floor(floor(size(X_phase,1)/2) * 0.666);
+    band_limits = [low, high];
+    
     % This block of code will add a constant to the phase band
     % rand_phase_block = 0.5 * ones(1, size(X_phase,2));
     % rand_phase_block = repmat(rand_phase_block, high-low+1, 1);

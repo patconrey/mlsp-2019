@@ -15,6 +15,8 @@ function [output_signal, hop_length] = processing_GLA_phase(input_signal, hop_le
        hop_length = floor(random_number_generator([128 512]));
     end
     
+    hop_length = 375;
+    
 % Modified Hamming window
 %     a = 0.54;
 %     b = -0.46;

@@ -15,6 +15,10 @@ function [output_signal, w_pass] = processing_high_pass(input_signal, w_pass)
     if nargin == 1
         w_pass = random_number_generator([0.2 0.4]);
     end
+    
+    % Set parameter
+    w_pass = 1/3;
+    
     output_signal = highpass(input_signal, w_pass);
 end
 

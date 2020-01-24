@@ -8,6 +8,10 @@ function [output_signal, downsample_factor] = processing_dnsmpl_alias(input_sign
     if nargin == 1
         downsample_factor = floor(random_number_generator([1 11]));
     end
+    
+    % Set parameter
+    downsample_factor = 4;
+    
     downsampled_signal = input_signal(1:downsample_factor:end);
     output_signal = resample(downsampled_signal, downsample_factor, 1);
 end

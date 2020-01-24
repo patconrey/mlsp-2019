@@ -26,7 +26,7 @@
 
 %% Config
 % Choose 'Mark' or 'Pat'
-Machine = "Pat";
+Machine = "Mark";
 
 addpath("listening_experiments/processing_functions");
 addpath("listening_experiments/utils");
@@ -41,7 +41,7 @@ max_duration_in_seconds = 5;
 
 % This is the directory we'll save the processed audio files to.
 if Machine == "Mark"
-    path_to_processed_signals = "listening_experiments\artifacts\";
+    path_to_processed_signals = "artifacts\";
 elseif Machine == "Pat"
     path_to_processed_signals = "artifacts/";
 end

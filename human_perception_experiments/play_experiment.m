@@ -3,7 +3,7 @@
 path_to_experiment = "experiments.mat";
 
 maximum_duration_in_seconds = 5;
-
+ 
 silence_answer_output = true;
 
 %% Load experiment

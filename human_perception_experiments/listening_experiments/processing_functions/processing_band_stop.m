@@ -9,5 +9,9 @@ function [output_signal, w_pass] = processing_band_stop(input_signal, w_pass)
         w_high = random_number_generator([w_low, w_low+0.1]);
         w_pass = [w_low w_high];
     end
+    
+    % Set parameter
+    w_pass = [1/6, 1/2];
+    
     output_signal = bandstop(input_signal, w_pass);
 end
